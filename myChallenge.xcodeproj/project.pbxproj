@@ -57,7 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				884EB4731D46914000EAA407 /* AppDelegate.swift */,
-				884EB4751D46914000EAA407 /* ViewController.swift */,
+				884EB4881D46920500EAA407 /* Controller */,
 				884EB4771D46914000EAA407 /* Main.storyboard */,
 				884EB47D1D46914000EAA407 /* Assets.xcassets */,
 				884EB47F1D46914000EAA407 /* LaunchScreen.storyboard */,
@@ -65,6 +65,14 @@
 				884EB47A1D46914000EAA407 /* myChallenge.xcdatamodeld */,
 			);
 			path = myChallenge;
+			sourceTree = "<group>";
+		};
+		884EB4881D46920500EAA407 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				884EB4751D46914000EAA407 /* ViewController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
