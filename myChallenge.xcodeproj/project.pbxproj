@@ -7,15 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8811D0481D49BE590050E700 /* Run+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8811D0441D49BE590050E700 /* Run+CoreDataProperties.swift */; };
+		8811D0491D49BE590050E700 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8811D0451D49BE590050E700 /* Run.swift */; };
+		8811D04A1D49BE590050E700 /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8811D0461D49BE590050E700 /* Location+CoreDataProperties.swift */; };
+		8811D04B1D49BE590050E700 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8811D0471D49BE590050E700 /* Location.swift */; };
 		884EB4741D46914000EAA407 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884EB4731D46914000EAA407 /* AppDelegate.swift */; };
 		884EB4761D46914000EAA407 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884EB4751D46914000EAA407 /* ViewController.swift */; };
 		884EB4791D46914000EAA407 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 884EB4771D46914000EAA407 /* Main.storyboard */; };
 		884EB47C1D46914000EAA407 /* myChallenge.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 884EB47A1D46914000EAA407 /* myChallenge.xcdatamodeld */; };
 		884EB47E1D46914000EAA407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884EB47D1D46914000EAA407 /* Assets.xcassets */; };
 		884EB4811D46914000EAA407 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 884EB47F1D46914000EAA407 /* LaunchScreen.storyboard */; };
+		884EB48A1D46932B00EAA407 /* NewRunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884EB4891D46932B00EAA407 /* NewRunViewController.swift */; };
+		88F1C48A1D48677D00D17131 /* AddChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1C4891D48677D00D17131 /* AddChallengeCell.swift */; };
+		88F1C48C1D4867E200D17131 /* ChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1C48B1D4867E200D17131 /* ChallengeCell.swift */; };
+		88F88EB51D47241800DA3136 /* ChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F88EB41D47241800DA3136 /* ChallengeListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8811D0441D49BE590050E700 /* Run+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Run+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8811D0451D49BE590050E700 /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
+		8811D0461D49BE590050E700 /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8811D0471D49BE590050E700 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		884EB4701D46914000EAA407 /* myChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		884EB4731D46914000EAA407 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		884EB4751D46914000EAA407 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +36,10 @@
 		884EB47D1D46914000EAA407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		884EB4801D46914000EAA407 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		884EB4821D46914000EAA407 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		884EB4891D46932B00EAA407 /* NewRunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRunViewController.swift; sourceTree = "<group>"; };
+		88F1C4891D48677D00D17131 /* AddChallengeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddChallengeCell.swift; sourceTree = "<group>"; };
+		88F1C48B1D4867E200D17131 /* ChallengeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeCell.swift; sourceTree = "<group>"; };
+		88F88EB41D47241800DA3136 /* ChallengeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChallengeListViewController.swift; path = ../ChallengeListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +72,8 @@
 		884EB4721D46914000EAA407 /* myChallenge */ = {
 			isa = PBXGroup;
 			children = (
-				884EB4731D46914000EAA407 /* AppDelegate.swift */,
+				88F1C48D1D486CAF00D17131 /* Model */,
+				88F88EB11D4723B600DA3136 /* View */,
 				884EB4881D46920500EAA407 /* Controller */,
 				884EB4771D46914000EAA407 /* Main.storyboard */,
 				884EB47D1D46914000EAA407 /* Assets.xcassets */,
@@ -71,8 +88,31 @@
 			isa = PBXGroup;
 			children = (
 				884EB4751D46914000EAA407 /* ViewController.swift */,
+				88F88EB41D47241800DA3136 /* ChallengeListViewController.swift */,
+				884EB4891D46932B00EAA407 /* NewRunViewController.swift */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		88F1C48D1D486CAF00D17131 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				884EB4731D46914000EAA407 /* AppDelegate.swift */,
+				8811D0441D49BE590050E700 /* Run+CoreDataProperties.swift */,
+				8811D0451D49BE590050E700 /* Run.swift */,
+				8811D0461D49BE590050E700 /* Location+CoreDataProperties.swift */,
+				8811D0471D49BE590050E700 /* Location.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		88F88EB11D4723B600DA3136 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				88F1C4891D48677D00D17131 /* AddChallengeCell.swift */,
+				88F1C48B1D4867E200D17131 /* ChallengeCell.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,6 +147,11 @@
 				TargetAttributes = {
 					884EB46F1D46914000EAA407 = {
 						CreatedOnToolsVersion = 7.3.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -147,8 +192,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				884EB4761D46914000EAA407 /* ViewController.swift in Sources */,
+				8811D04B1D49BE590050E700 /* Location.swift in Sources */,
+				8811D0491D49BE590050E700 /* Run.swift in Sources */,
 				884EB4741D46914000EAA407 /* AppDelegate.swift in Sources */,
 				884EB47C1D46914000EAA407 /* myChallenge.xcdatamodeld in Sources */,
+				8811D04A1D49BE590050E700 /* Location+CoreDataProperties.swift in Sources */,
+				88F88EB51D47241800DA3136 /* ChallengeListViewController.swift in Sources */,
+				884EB48A1D46932B00EAA407 /* NewRunViewController.swift in Sources */,
+				88F1C48C1D4867E200D17131 /* ChallengeCell.swift in Sources */,
+				88F1C48A1D48677D00D17131 /* AddChallengeCell.swift in Sources */,
+				8811D0481D49BE590050E700 /* Run+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +315,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = myChallenge/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.orlov.vasili.myChallenge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -273,6 +327,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = myChallenge/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.orlov.vasili.myChallenge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -298,6 +353,7 @@
 				884EB4871D46914000EAA407 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

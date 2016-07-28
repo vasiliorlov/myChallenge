@@ -106,6 +106,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+   
+     // MARK: - user function core data
+   func getCountEntity(entity entity:String)-> Int{
+      var count = 0
+      let fetchRequest = NSFetchRequest(entityName: entity)
+      do {
+         let fetchedEntities = try self.managedObjectContext.executeFetchRequest(fetchRequest) as! [Run]
+         count = fetchedEntities.count
+        } catch {
+                 print("Error fetchRequest")
+               }
+      return count
+    }
 }
 
