@@ -11,7 +11,7 @@ import UIKit
 class ChallengeListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var tableView: UITableView!//challenge list
-    var row: Int = AppDelegate().getCountEntity(entity: "Run") + 1 //for button +
+    var row: Int = 2//DBInspector.sharedInstance.getCountEntity(entity: "Run") + 1 //for button +
     
     override func viewDidLoad() {
         super.viewDidLoad()

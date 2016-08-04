@@ -13,6 +13,7 @@ import MapKit
 
 
 
+
 class NewRunViewController: UIViewController,CLLocationManagerDelegate {
 
     //label
@@ -92,11 +93,13 @@ class NewRunViewController: UIViewController,CLLocationManagerDelegate {
                                                        selector: #selector(NewRunViewController.eachSecond(_:)),
                                                        userInfo: nil,
                                                        repeats: true)
+        
         startLocationUpdates()
     }
     
     
     @IBAction func finishPressed(sender: AnyObject) {
+        SaveRun()
         self.dismissViewControllerAnimated(true, completion: nil) 
     }
     
@@ -114,7 +117,9 @@ class NewRunViewController: UIViewController,CLLocationManagerDelegate {
             }
         }
     }
-  
+    func SaveRun(){
+        DBInspector.sharedInstance.saveRun(distance, seconds: seconds, time: NSDate(), locations: self.locations)
+    }
     
     /*
     // MARK: - Navigation

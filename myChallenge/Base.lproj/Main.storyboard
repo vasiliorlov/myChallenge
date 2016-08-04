@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="q3F-de-VrJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CLw-mf-V8n">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -69,6 +69,60 @@
             </objects>
             <point key="canvasLocation" x="591" y="519"/>
         </scene>
+        <!--Sign In View Controller-->
+        <scene sceneID="j6x-29-hRk">
+            <objects>
+                <viewController id="CLw-mf-V8n" customClass="SignInViewController" customModule="myChallenge" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EQJ-P7-Huk"/>
+                        <viewControllerLayoutGuide type="bottom" id="UQb-aK-Sue"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BvU-73-vTk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yob-es-zqn">
+                                <rect key="frame" x="303" y="669" width="91" height="30"/>
+                                <state key="normal" title="Create user"/>
+                                <connections>
+                                    <action selector="createNewUser:" destination="CLw-mf-V8n" eventType="touchUpInside" id="leZ-mR-MY2"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDW-Iy-pV3">
+                                <rect key="frame" x="87" y="206" width="240" height="65"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="RfM-C6-8H8"/>
+                                    <constraint firstAttribute="width" constant="240" id="dDA-hU-iVo"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sY3-Li-inX">
+                                <rect key="frame" x="87" y="106" width="240" height="65"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="cph-8p-gpz"/>
+                                    <constraint firstAttribute="width" constant="240" id="eBq-fQ-VRD"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="sY3-Li-inX" firstAttribute="centerX" secondItem="BvU-73-vTk" secondAttribute="centerX" id="J9A-DS-4Rh"/>
+                            <constraint firstItem="BDW-Iy-pV3" firstAttribute="centerX" secondItem="BvU-73-vTk" secondAttribute="centerX" id="T0i-qz-ngk"/>
+                            <constraint firstItem="BDW-Iy-pV3" firstAttribute="top" secondItem="sY3-Li-inX" secondAttribute="bottom" constant="35" id="uK7-os-YH3"/>
+                            <constraint firstItem="sY3-Li-inX" firstAttribute="top" secondItem="EQJ-P7-Huk" secondAttribute="bottom" constant="86" id="usm-ks-Qmd"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="viewEmailLabel" destination="sY3-Li-inX" id="uIE-zb-gyc"/>
+                        <outlet property="viewPasswordLabel" destination="BDW-Iy-pV3" id="goj-v5-FQV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bvj-yt-Cig" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-389" y="519"/>
+        </scene>
         <!--Challenge List View Controller-->
         <scene sceneID="WlO-rO-fCd">
             <objects>
@@ -82,7 +136,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vzs-p6-PpP">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="671"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="651"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ChallengeCell" id="NGt-fz-Ncs" customClass="ChallengeCell" customModule="myChallenge" customModuleProvider="target">
