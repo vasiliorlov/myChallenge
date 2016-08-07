@@ -25,6 +25,7 @@
 		88F1C48A1D48677D00D17131 /* AddChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1C4891D48677D00D17131 /* AddChallengeCell.swift */; };
 		88F1C48C1D4867E200D17131 /* ChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1C48B1D4867E200D17131 /* ChallengeCell.swift */; };
 		88F88EB51D47241800DA3136 /* ChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F88EB41D47241800DA3136 /* ChallengeListViewController.swift */; };
+		88FDAD651D54458C00151EB1 /* AKPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FDAD641D54458C00151EB1 /* AKPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		88F1C4891D48677D00D17131 /* AddChallengeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddChallengeCell.swift; sourceTree = "<group>"; };
 		88F1C48B1D4867E200D17131 /* ChallengeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeCell.swift; sourceTree = "<group>"; };
 		88F88EB41D47241800DA3136 /* ChallengeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChallengeListViewController.swift; path = ../ChallengeListViewController.swift; sourceTree = "<group>"; };
+		88FDAD641D54458C00151EB1 /* AKPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AKPickerView.swift; path = "../../my Medicine Diary/my Medicine Diary/AKPickerView.swift"; sourceTree = "<group>"; };
 		D2EDFC3377893B61AA77FCAF /* Pods_myChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_myChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8F7A7A8FC162D24A85B6924 /* Pods-myChallenge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myChallenge.release.xcconfig"; path = "Pods/Target Support Files/Pods-myChallenge/Pods-myChallenge.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				88F1C4891D48677D00D17131 /* AddChallengeCell.swift */,
+				88FDAD641D54458C00151EB1 /* AKPickerView.swift */,
 				88F1C48B1D4867E200D17131 /* ChallengeCell.swift */,
 			);
 			name = View;
@@ -283,6 +286,7 @@
 				8811D0491D49BE590050E700 /* Run.swift in Sources */,
 				884EB4741D46914000EAA407 /* AppDelegate.swift in Sources */,
 				8845E5751D4D418A00B1AD9D /* SignInViewController.swift in Sources */,
+				88FDAD651D54458C00151EB1 /* AKPickerView.swift in Sources */,
 				884EB47C1D46914000EAA407 /* myChallenge.xcdatamodeld in Sources */,
 				8811D04A1D49BE590050E700 /* Location+CoreDataProperties.swift in Sources */,
 				88F88EB51D47241800DA3136 /* ChallengeListViewController.swift in Sources */,

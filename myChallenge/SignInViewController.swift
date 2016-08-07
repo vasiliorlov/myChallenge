@@ -10,96 +10,108 @@ import UIKit
 import FirebaseAuth
 import SkyFloatingLabelTextField
 
-
-class SignInViewController: UIViewController, UITextFieldDelegate {
-
-
+class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewDelegate, AKPickerViewDataSource  {
+    
+    
     
     
     @IBOutlet var viewEmailLabel: UIView!
+    let emailTextFieldSky = SkyFloatingLabelTextField(frame: CGRectMake(10, 10, 240, 45))
     @IBOutlet var viewPasswordLabel: UIView!
+    let passTextFieldSky = SkyFloatingLabelTextField(frame: CGRectMake(10, 10, 240, 45))
+    @IBOutlet var viewTypePicker: UIView!
+    @IBOutlet var viewButtonGo: UIButton!
+    
+    var currentActionType = 1 {
+        didSet {
+            if currentActionType == 0 { //remember pass
+                UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.TransitionNone, animations: { () -> Void in
+                    self.viewPasswordLabel.alpha = 0
+                    }, completion: { (finished: Bool) -> Void   in
+                        self.viewPasswordLabel.hidden = true
+                })
+            } else if oldValue == 0 {
+                UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.TransitionNone, animations: { () -> Void in
+                    self.viewPasswordLabel.alpha = 1
+                    }, completion: { (finished: Bool) -> Void   in
+                        self.viewPasswordLabel.hidden = false
+                })
+            }
+        }
+    }
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         createUIviewLabel()//draw label
-
+        createListTypeAction()//add pickerView
+        redrawButtonGo()//redraw button
+        
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    @IBAction func createNewUser(sender: AnyObject) {
-
-        
-   //                 FIRAuth.auth()?.createUserWithEmail(emailTextField.text!, password: passwordTextField.text!) { (user, error) in
-                // ...
-                
-               print("crete user")
-        
-        
-    }
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
     
     
-     // MARK: - UILabel
+    // MARK: - UILabel
     func createUIviewLabel(){
         //color
-        let lightGreyColor = UIColor(red: 197/255, green: 205/255, blue: 205/255, alpha: 1.0)
-        let darkGreyColor = UIColor(red: 52/255, green: 42/255, blue: 61/255, alpha: 1.0)
-        let overcastBlueColor = UIColor(red: 0, green: 187/255, blue: 204/255, alpha: 1.0)
+        
         
         
         //email - login
         
-        let emailTextFieldSky = SkyFloatingLabelTextField(frame: CGRectMake(10, 10, 220, 45))
         emailTextFieldSky.placeholder = "Email (login)"
         emailTextFieldSky.title = "Email address"
         emailTextFieldSky.errorColor = UIColor.redColor()
         emailTextFieldSky.delegate = self
         
-        emailTextFieldSky.tintColor = overcastBlueColor // the color of the blinking cursor
-        emailTextFieldSky.textColor = darkGreyColor
-        emailTextFieldSky.lineColor = lightGreyColor
-        emailTextFieldSky.selectedTitleColor = overcastBlueColor
-        emailTextFieldSky.selectedLineColor = overcastBlueColor
+        emailTextFieldSky.tintColor = GlobalType.overcastBlueColor // the color of the blinking cursor
+        emailTextFieldSky.textColor = GlobalType.darkGreyColor
+        emailTextFieldSky.lineColor = GlobalType.lightGreyColor
+        emailTextFieldSky.selectedTitleColor = GlobalType.overcastBlueColor
+        emailTextFieldSky.selectedLineColor = GlobalType.overcastBlueColor
         
         emailTextFieldSky.lineHeight = 1.0 // bottom line height in points
         emailTextFieldSky.selectedLineHeight = 2.0
         emailTextFieldSky.tag = 1
-      
+        
         self.viewEmailLabel.addSubview(emailTextFieldSky)
         
         //password - login
-        let passlTextFieldSky = SkyFloatingLabelTextField(frame: CGRectMake(10, 10, 220, 45))
-        passlTextFieldSky.placeholder = "Password"
-        passlTextFieldSky.title = "Your password"
-        passlTextFieldSky.errorColor = UIColor.redColor()
-        passlTextFieldSky.delegate = self
         
-        passlTextFieldSky.tintColor = overcastBlueColor // the color of the blinking cursor
-        passlTextFieldSky.textColor = darkGreyColor
-        passlTextFieldSky.lineColor = lightGreyColor
-        passlTextFieldSky.selectedTitleColor = overcastBlueColor
-        passlTextFieldSky.selectedLineColor = overcastBlueColor
+        passTextFieldSky.placeholder = "Password"
+        passTextFieldSky.title = "Your password"
+        passTextFieldSky.errorColor = UIColor.redColor()
+        passTextFieldSky.delegate = self
         
-        passlTextFieldSky.lineHeight = 1.0 // bottom line height in points
-        passlTextFieldSky.selectedLineHeight = 2.0
-        passlTextFieldSky.tag = 2
+        passTextFieldSky.tintColor = GlobalType.overcastBlueColor // the color of the blinking cursor
+        passTextFieldSky.textColor = GlobalType.darkGreyColor
+        passTextFieldSky.lineColor = GlobalType.lightGreyColor
+        passTextFieldSky.selectedTitleColor = GlobalType.overcastBlueColor
+        passTextFieldSky.selectedLineColor = GlobalType.overcastBlueColor
         
-        self.viewPasswordLabel.addSubview(passlTextFieldSky)
+        passTextFieldSky.lineHeight = 1.0 // bottom line height in points
+        passTextFieldSky.selectedLineHeight = 2.0
+        passTextFieldSky.tag = 2
+        
+        self.viewPasswordLabel.addSubview(passTextFieldSky)
         
         
     }
@@ -117,7 +129,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                     }
                 } else if floatingLabelTextField.tag == 2 {//password
                     if(text.characters.count < 6 ) {
-                        floatingLabelTextField.errorMessage = "Password so easy "
+                        floatingLabelTextField.errorMessage = "Password so easy"
                     }
                     else {
                         // The error message will only disappear when we reset it to nil or empty string
@@ -131,4 +143,122 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {// called when 'return' key pressed. return NO to ignore.{
+        
+        textField.resignFirstResponder()
+        
+        return true
+    }
+    //MARK: -  picker action type
+    func createListTypeAction(){
+        
+        let pickerView = AKPickerView(frame: CGRectMake(10, 10, 240, 45))
+        pickerView.selectedItem = 1
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        pickerView.font = UIFont(name: "HelveticaNeue-Light", size: 20)!
+        pickerView.highlightedFont = UIFont(name: "HelveticaNeue", size: 20)!
+        pickerView.textColor = GlobalType.lightGreyColor
+        pickerView.highlightedTextColor = GlobalType.overcastBlueColor
+        pickerView.pickerViewStyle = .Wheel
+        pickerView.maskDisabled = true
+        pickerView.reloadData()
+        self.viewTypePicker.addSubview(pickerView)
+        
+    }
+    //MARK: - data picker delegate
+    
+    
+    
+    func numberOfItemsInPickerView(pickerView: AKPickerView) -> Int {
+        return GlobalType.typeActionEn.count
+    }
+    func pickerView(pickerView: AKPickerView, titleForItem item: Int) -> String {
+        return GlobalType.typeActionEn[item]
+    }
+    func pickerView(pickerView: AKPickerView, didSelectItem item: Int) {
+        self.currentActionType = item
+        
+    }
+    
+    //MARK: - button Go
+    func redrawButtonGo(){
+        self.viewButtonGo.layer.cornerRadius = 0.5 * self.viewButtonGo.bounds.size.width
+        self.viewButtonGo.clipsToBounds = true
+        self.viewButtonGo.tintColor = GlobalType.overcastBlueColor
+        self.viewButtonGo.setTitleColor(GlobalType.overcastBlueColor, forState: UIControlState.Normal)
+        self.viewButtonGo.setTitleColor(GlobalType.lightGreyColor, forState: UIControlState.Highlighted)
+        
+        
+        
+    }
+    // MARK: - Validating the fields when "GO" is pressed
+    var isGOButtonPressed = false
+    var showingTitleInProgress = false
+    
+    @IBAction func actionButtonGo(sender: AnyObject) {
+        self.isGOButtonPressed = false
+        if(!self.showingTitleInProgress) {
+            self.hideTitleVisibleFromFields()
+        }
+    }
+    
+    @IBAction func actionButtonGoDown(sender: AnyObject) {
+        self.isGOButtonPressed = true
+        if !self.emailTextFieldSky.hasText() {
+            self.showingTitleInProgress = true
+            self.emailTextFieldSky.setTitleVisible(true, animated: true, animationCompletion: self.showingTitleInAnimationComplete)
+            self.emailTextFieldSky.highlighted = true
+        }
+        if !self.passTextFieldSky.hasText() {
+            self.showingTitleInProgress = true
+            self.passTextFieldSky.setTitleVisible(true, animated: true, animationCompletion: self.showingTitleInAnimationComplete)
+            self.passTextFieldSky.highlighted = true
+        }
+        
+        // go next step action
+        guard self.emailTextFieldSky.hasText() else { return }
+        guard self.passTextFieldSky.hasText() else { return }
+        guard self.emailTextFieldSky.text!.characters.count >= 5 && self.emailTextFieldSky.text!.containsString("@")  && self.emailTextFieldSky.text!.containsString(".") else { return }
+        guard self.passTextFieldSky.text!.characters.count >= 6  else { return }
+        
+        //goAction()
+    }
+    func hideTitleVisibleFromFields() {
+        self.emailTextFieldSky.setTitleVisible(false, animated: true)
+        self.passTextFieldSky.setTitleVisible(false, animated: true)
+        
+        self.emailTextFieldSky.highlighted = false
+        self.passTextFieldSky.highlighted = false
+    }
+    func showingTitleInAnimationComplete() {
+        // If a field is not filled out, display the highlighted title for 0.3 seco
+        let displayTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)))
+        dispatch_after(displayTime, dispatch_get_main_queue(), {
+            self.showingTitleInProgress = false
+            if(!self.isGOButtonPressed) {
+                self.hideTitleVisibleFromFields()
+            }
+        })
+    }
+    
+    // MARK: - Go next step action
+    
+    func goAction(){
+        switch currentActionType {
+        case 0:
+            print("remember")
+        case 1:
+            print("Log In")
+        case 2:
+            print("Create user")
+        default:
+            return
+        }
+    }
+    //create user
+    func createNewUser(sender: AnyObject) {
+       // FIRAuth.auth()?.createUserWithEmail(self.emailTextFieldSky.text!, password: self.passTextFieldSky.text!) { (user, error) in       }
+    }
 }
+

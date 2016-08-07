@@ -81,42 +81,64 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yob-es-zqn">
-                                <rect key="frame" x="303" y="669" width="91" height="30"/>
-                                <state key="normal" title="Create user"/>
-                                <connections>
-                                    <action selector="createNewUser:" destination="CLw-mf-V8n" eventType="touchUpInside" id="leZ-mR-MY2"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDW-Iy-pV3">
-                                <rect key="frame" x="87" y="206" width="240" height="65"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="65" id="RfM-C6-8H8"/>
-                                    <constraint firstAttribute="width" constant="240" id="dDA-hU-iVo"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sY3-Li-inX">
-                                <rect key="frame" x="87" y="106" width="240" height="65"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="77" y="85" width="260" height="65"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="cph-8p-gpz"/>
-                                    <constraint firstAttribute="width" constant="240" id="eBq-fQ-VRD"/>
+                                    <constraint firstAttribute="width" constant="260" id="eBq-fQ-VRD"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LF8-MW-k7Z">
+                                <rect key="frame" x="77" y="275" width="260" height="65"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="F7n-6l-sse"/>
+                                    <constraint firstAttribute="width" constant="260" id="a4s-9s-Cx5"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDW-Iy-pV3">
+                                <rect key="frame" x="77" y="180" width="260" height="65"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="RfM-C6-8H8"/>
+                                    <constraint firstAttribute="width" constant="260" id="dDA-hU-iVo"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpj-Fp-9oJ">
+                                <rect key="frame" x="175" y="370" width="65" height="65"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="xGZ-fp-3CD"/>
+                                    <constraint firstAttribute="width" constant="65" id="ygN-VZ-vyc"/>
+                                </constraints>
+                                <state key="normal" title="GO">
+                                    <color key="titleColor" red="0.073241642424164088" green="1" blue="0.12988677161114925" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="actionButtonGo:" destination="CLw-mf-V8n" eventType="touchUpInside" id="O58-Zc-roF"/>
+                                    <action selector="actionButtonGoDown:" destination="CLw-mf-V8n" eventType="touchDown" id="ZlL-PX-y3l"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="dpj-Fp-9oJ" firstAttribute="top" secondItem="LF8-MW-k7Z" secondAttribute="bottom" constant="30" id="9jc-8c-D94"/>
+                            <constraint firstItem="LF8-MW-k7Z" firstAttribute="top" secondItem="BDW-Iy-pV3" secondAttribute="bottom" constant="30" id="CZv-97-eUh"/>
                             <constraint firstItem="sY3-Li-inX" firstAttribute="centerX" secondItem="BvU-73-vTk" secondAttribute="centerX" id="J9A-DS-4Rh"/>
                             <constraint firstItem="BDW-Iy-pV3" firstAttribute="centerX" secondItem="BvU-73-vTk" secondAttribute="centerX" id="T0i-qz-ngk"/>
-                            <constraint firstItem="BDW-Iy-pV3" firstAttribute="top" secondItem="sY3-Li-inX" secondAttribute="bottom" constant="35" id="uK7-os-YH3"/>
-                            <constraint firstItem="sY3-Li-inX" firstAttribute="top" secondItem="EQJ-P7-Huk" secondAttribute="bottom" constant="86" id="usm-ks-Qmd"/>
+                            <constraint firstItem="dpj-Fp-9oJ" firstAttribute="centerX" secondItem="BvU-73-vTk" secondAttribute="centerX" id="bYL-H1-NE5"/>
+                            <constraint firstItem="BDW-Iy-pV3" firstAttribute="top" secondItem="sY3-Li-inX" secondAttribute="bottom" constant="30" id="uK7-os-YH3"/>
+                            <constraint firstItem="sY3-Li-inX" firstAttribute="top" secondItem="EQJ-P7-Huk" secondAttribute="bottom" constant="65" id="usm-ks-Qmd"/>
+                            <constraint firstItem="LF8-MW-k7Z" firstAttribute="centerX" secondItem="BvU-73-vTk" secondAttribute="centerX" id="vVd-f9-imU"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="viewButtonGo" destination="dpj-Fp-9oJ" id="Se0-hm-J3v"/>
                         <outlet property="viewEmailLabel" destination="sY3-Li-inX" id="uIE-zb-gyc"/>
                         <outlet property="viewPasswordLabel" destination="BDW-Iy-pV3" id="goj-v5-FQV"/>
+                        <outlet property="viewTypePicker" destination="LF8-MW-k7Z" id="8sM-ol-2bw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bvj-yt-Cig" userLabel="First Responder" sceneMemberID="firstResponder"/>
