@@ -11,7 +11,7 @@ import Firebase
 
 
 struct GlobalType{
-    static let typeActionEn = [" Remember Passord ", " Log In ", " Create User"]
+    static let typeActionEn = ["Change Password ", " Log In ", " Create User"]
     static let lightGreyColor = UIColor(red: 197/255, green: 205/255, blue: 205/255, alpha: 1.0)
     static let darkGreyColor = UIColor(red: 52/255, green: 42/255, blue: 61/255, alpha: 1.0)
     static let overcastBlueColor = UIColor(red: 0, green: 187/255, blue: 204/255, alpha: 1.0)
@@ -22,12 +22,14 @@ struct GlobalType{
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    override init() {
+         FIRApp.configure()
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         // Use Firebase library to configure APIs
-        FIRApp.configure()
+       
         return true
     }
 

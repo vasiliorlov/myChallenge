@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import FirebaseAuth
+import Firebase
 import SkyFloatingLabelTextField
 
-class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewDelegate, AKPickerViewDataSource  {
+class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewDelegate, AKPickerViewDataSource {
     
     
     
@@ -21,6 +21,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewD
     let passTextFieldSky = SkyFloatingLabelTextField(frame: CGRectMake(10, 10, 240, 45))
     @IBOutlet var viewTypePicker: UIView!
     @IBOutlet var viewButtonGo: UIButton!
+    
+    //save login and password
+    let userDefault = NSUserDefaults.standardUserDefaults()
     
     var currentActionType = 1 {
         didSet {
@@ -44,12 +47,23 @@ class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //hidde navigation bar
+        self.navigationController?.navigationBarHidden = true
         
         createUIviewLabel()//draw label
         createListTypeAction()//add pickerView
         redrawButtonGo()//redraw button
         
         // Do any additional setup after loading the view.
+
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        emailTextFieldSky.text = userDefault.stringForKey("email")
+        passTextFieldSky.text = userDefault.stringForKey("pass")
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -71,8 +85,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewD
     
     // MARK: - UILabel
     func createUIviewLabel(){
-        //color
-        
         
         
         //email - login
@@ -100,6 +112,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewD
         passTextFieldSky.title = "Your password"
         passTextFieldSky.errorColor = UIColor.redColor()
         passTextFieldSky.delegate = self
+        passTextFieldSky.secureTextEntry = true
         
         passTextFieldSky.tintColor = GlobalType.overcastBlueColor // the color of the blinking cursor
         passTextFieldSky.textColor = GlobalType.darkGreyColor
@@ -117,10 +130,11 @@ class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewD
     }
     /// Implementing a method on the UITextFieldDelegate protocol. This will notify us when something has changed on the textfield
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
         if let text = textField.text {
             if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
                 if floatingLabelTextField.tag == 1 { //email
-                    if(text.characters.count < 5 || !text.containsString("@")  || !text.containsString(".")) {
+                    if(range.location + string.characters.count  < 5 || !text.containsString("@")  || !text.containsString(".")) {
                         floatingLabelTextField.errorMessage = "Invalid email"
                     }
                     else {
@@ -128,7 +142,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewD
                         floatingLabelTextField.errorMessage = ""
                     }
                 } else if floatingLabelTextField.tag == 2 {//password
-                    if(text.characters.count < 6 ) {
+                    if(range.location + string.characters.count < 6 ) {
                         floatingLabelTextField.errorMessage = "Password so easy"
                     }
                     else {
@@ -143,11 +157,24 @@ class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewD
         return true
     }
     
+    
+    
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {// called when 'return' key pressed. return NO to ignore.{
         
         textField.resignFirstResponder()
         
         return true
+    }
+    
+    @IBAction func tapGlobalView(sender: AnyObject) {
+        if self.emailTextFieldSky.isFirstResponder() {
+            self.emailTextFieldSky.resignFirstResponder()
+        }
+        if self.passTextFieldSky.isFirstResponder() {
+            self.passTextFieldSky.resignFirstResponder()
+        }
+        
     }
     //MARK: -  picker action type
     func createListTypeAction(){
@@ -223,6 +250,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewD
         guard self.passTextFieldSky.text!.characters.count >= 6  else { return }
         
         //goAction()
+        goAction()
     }
     func hideTitleVisibleFromFields() {
         self.emailTextFieldSky.setTitleVisible(false, animated: true)
@@ -247,18 +275,119 @@ class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewD
     func goAction(){
         switch currentActionType {
         case 0:
-            print("remember")
+            rememberPasswordToEmail(self)
         case 1:
-            print("Log In")
+            logIn(self)
         case 2:
-            print("Create user")
+            createNewUser(self)
         default:
             return
         }
     }
     //create user
     func createNewUser(sender: AnyObject) {
-       // FIRAuth.auth()?.createUserWithEmail(self.emailTextFieldSky.text!, password: self.passTextFieldSky.text!) { (user, error) in       }
+        FIRAuth.auth()?.createUserWithEmail(self.emailTextFieldSky.text!, password: self.passTextFieldSky.text!) { (user, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            //save login and pass
+            self.userDefault.setObject(self.emailTextFieldSky.text, forKey: "email")
+            self.userDefault.setObject(self.passTextFieldSky.text, forKey: "pass")
+            self.userDefault.synchronize()
+        }
     }
+    func logIn(sender: AnyObject){
+        // Sign In with credentials.
+        let email = self.emailTextFieldSky.text!
+        let password = self.passTextFieldSky.text!
+        
+        FIRAuth.auth()?.signInWithEmail(email, password: password) {  (user, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            //save login and pass
+            self.userDefault.setObject(self.emailTextFieldSky.text, forKey: "email")
+            self.userDefault.setObject(self.passTextFieldSky.text, forKey: "pass")
+            self.userDefault.synchronize()
+          //go
+            self.goChallegeList()
+            
+        }
+    }
+    func rememberPasswordToEmail(sender: AnyObject){
+        let email = self.emailTextFieldSky.text!
+        FIRAuth.auth()?.sendPasswordResetWithEmail(email) {  (error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+        }
+    }
+    
+    //go challenge list
+    func goChallegeList(){
+
+        let vc = self.storyboard!.instantiateViewControllerWithIdentifier("ChallengeListViewController") as! ChallengeListViewController
+        self.navigationController!.pushViewController(vc, animated: true)
+    }
+    
+    //    @IBOutlet weak var emailField: UITextField!
+    //
+    //    @IBOutlet weak var passwordField: UITextField!
+    //
+    //    override func viewDidAppear(animated: Bool) {
+    //        if let user = FIRAuth.auth()?.currentUser { //error here
+    //            self.signedIn(user)
+    //        }
+    //    }
+    //
+    
+    //    @IBAction func didTapSignUp(sender: AnyObject) {
+    //        let email = emailField.text
+    //        let password = passwordField.text
+    //        FIRAuth.auth()?.createUserWithEmail(email!, password: password!) { // error here(user, error) in
+    //            if let error = error {
+    //                print(error.localizedDescription)
+    //                return
+    //            }
+    //            self.setDisplayName(user!)
+    //        }
+    //    }
+    //
+    //    func setDisplayName(user: FIRUser) {
+    //        let changeRequest = user.profileChangeRequest()
+    //        changeRequest.displayName = user.email!.componentsSeparatedByString("@")[0]
+    //        changeRequest.commitChangesWithCompletion(){ (error) in
+    //            if let error = error {
+    //                print(error.localizedDescription)
+    //                return
+    //            }
+    //            self.signedIn(FIRAuth.auth()?.currentUser) //error here
+    //        }
+    //    }
+    //
+    //    @IBAction func didRequestPasswordReset(sender: AnyObject) {
+    //        let prompt = UIAlertController.init(title: nil, message: "Email:", preferredStyle: UIAlertControllerStyle.Alert)
+    //        let okAction = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default) { (action) in
+    //            let userInput = prompt.textFields![0].text
+    //            if (userInput!.isEmpty) {
+    //                return
+    //            }
+    //            FIRAuth.auth()?.sendPasswordResetWithEmail(userInput!) { //error here (error) in
+    //                if let error = error {
+    //                    print(error.localizedDescription)
+    //                    return
+    //                }
+    //            }
+    //        }
+    //        prompt.addTextFieldWithConfigurationHandler(nil)
+    //        prompt.addAction(okAction)
+    //        presentViewController(prompt, animated: true, completion: nil);
+    //    }
+    //
+    
+    
 }
 

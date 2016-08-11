@@ -8,8 +8,15 @@
 
 import UIKit
 
+protocol ButtonCellDelegate {
+    func cellTapped(cell: ChallengeCell)
+}
+
 class ChallengeCell: UITableViewCell {
 
+    var buttonDelegate:ButtonCellDelegate?
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -19,6 +26,12 @@ class ChallengeCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+
+    @IBAction func actionButtonSetting(sender: AnyObject) {
+        if let delegate = buttonDelegate {
+            delegate.cellTapped(self)
+        }
     }
 
 }
