@@ -15,7 +15,9 @@ protocol ButtonCellDelegate {
 class ChallengeCell: UITableViewCell {
 
     var buttonDelegate:ButtonCellDelegate?
+    var challengeCell:ChallengeObj?
     
+    @IBOutlet var label: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		70692E8A30DBC691500ACF4D /* Pods_myChallenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2EDFC3377893B61AA77FCAF /* Pods_myChallenge.framework */; };
+		880963591D5D830C00799D04 /* Challenge+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880963571D5D830C00799D04 /* Challenge+CoreDataProperties.swift */; };
+		8809635A1D5D830C00799D04 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880963581D5D830C00799D04 /* Challenge.swift */; };
 		8811D0481D49BE590050E700 /* Run+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8811D0441D49BE590050E700 /* Run+CoreDataProperties.swift */; };
 		8811D0491D49BE590050E700 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8811D0451D49BE590050E700 /* Run.swift */; };
 		8811D04A1D49BE590050E700 /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8811D0461D49BE590050E700 /* Location+CoreDataProperties.swift */; };
@@ -23,6 +25,7 @@
 		884EB47E1D46914000EAA407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884EB47D1D46914000EAA407 /* Assets.xcassets */; };
 		884EB4811D46914000EAA407 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 884EB47F1D46914000EAA407 /* LaunchScreen.storyboard */; };
 		884EB48A1D46932B00EAA407 /* NewRunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884EB4891D46932B00EAA407 /* NewRunViewController.swift */; };
+		88582E2E1D5E5A6000F15AD2 /* ChallengeObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88582E2D1D5E5A6000F15AD2 /* ChallengeObj.swift */; };
 		886081081D4BDCDA00D7D057 /* DBInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886081071D4BDCDA00D7D057 /* DBInspector.swift */; };
 		88F1C48A1D48677D00D17131 /* AddChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1C4891D48677D00D17131 /* AddChallengeCell.swift */; };
 		88F1C48C1D4867E200D17131 /* ChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1C48B1D4867E200D17131 /* ChallengeCell.swift */; };
@@ -32,6 +35,8 @@
 
 /* Begin PBXFileReference section */
 		81843BDD15A881F5A65E0585 /* Pods-myChallenge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myChallenge.debug.xcconfig"; path = "Pods/Target Support Files/Pods-myChallenge/Pods-myChallenge.debug.xcconfig"; sourceTree = "<group>"; };
+		880963571D5D830C00799D04 /* Challenge+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Challenge+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		880963581D5D830C00799D04 /* Challenge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		8811D0441D49BE590050E700 /* Run+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Run+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8811D0451D49BE590050E700 /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
 		8811D0461D49BE590050E700 /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -49,6 +54,7 @@
 		884EB4801D46914000EAA407 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		884EB4821D46914000EAA407 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		884EB4891D46932B00EAA407 /* NewRunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRunViewController.swift; sourceTree = "<group>"; };
+		88582E2D1D5E5A6000F15AD2 /* ChallengeObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeObj.swift; sourceTree = "<group>"; };
 		886081071D4BDCDA00D7D057 /* DBInspector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBInspector.swift; sourceTree = "<group>"; };
 		88F1C4891D48677D00D17131 /* AddChallengeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddChallengeCell.swift; sourceTree = "<group>"; };
 		88F1C48B1D4867E200D17131 /* ChallengeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeCell.swift; sourceTree = "<group>"; };
@@ -129,7 +135,10 @@
 			isa = PBXGroup;
 			children = (
 				884EB4731D46914000EAA407 /* AppDelegate.swift */,
+				880963571D5D830C00799D04 /* Challenge+CoreDataProperties.swift */,
+				880963581D5D830C00799D04 /* Challenge.swift */,
 				886081071D4BDCDA00D7D057 /* DBInspector.swift */,
+				88582E2D1D5E5A6000F15AD2 /* ChallengeObj.swift */,
 				8811D0441D49BE590050E700 /* Run+CoreDataProperties.swift */,
 				8811D0451D49BE590050E700 /* Run.swift */,
 				8811D0461D49BE590050E700 /* Location+CoreDataProperties.swift */,
@@ -299,11 +308,14 @@
 				884C34FC1D5BAE5B0005407F /* ChallengeViewController.swift in Sources */,
 				886081081D4BDCDA00D7D057 /* DBInspector.swift in Sources */,
 				8811D04B1D49BE590050E700 /* Location.swift in Sources */,
+				8809635A1D5D830C00799D04 /* Challenge.swift in Sources */,
 				8811D0491D49BE590050E700 /* Run.swift in Sources */,
 				884EB4741D46914000EAA407 /* AppDelegate.swift in Sources */,
 				8845E5751D4D418A00B1AD9D /* SignInViewController.swift in Sources */,
+				880963591D5D830C00799D04 /* Challenge+CoreDataProperties.swift in Sources */,
 				88FDAD651D54458C00151EB1 /* AKPickerView.swift in Sources */,
 				884EB47C1D46914000EAA407 /* myChallenge.xcdatamodeld in Sources */,
+				88582E2E1D5E5A6000F15AD2 /* ChallengeObj.swift in Sources */,
 				8811D04A1D49BE590050E700 /* Location+CoreDataProperties.swift in Sources */,
 				88F88EB51D47241800DA3136 /* ChallengeListViewController.swift in Sources */,
 				884EB48A1D46932B00EAA407 /* NewRunViewController.swift in Sources */,

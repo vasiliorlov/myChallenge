@@ -8,6 +8,8 @@
 
 import UIKit
 import SkyFloatingLabelTextField
+import CoreData
+import Firebase
 
 class ChallengeViewController: UIViewController, UITextFieldDelegate {
     //uiView
@@ -20,22 +22,27 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet var viewButtonSave: UIButton!
+    @IBOutlet var viewButtonCancel: UIButton!
     //logival
-    var isNew = true
-    
+    var challengeCell:ChallengeObj?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //hidde navigation bar
         self.navigationController?.navigationBarHidden = true
-        
         createUIviewLabel()//draw label
         //
         //        createListTypeAction()//add pickerView
         redrawButtonSave()
+        redrawButtonCancel()
         //
         // Do any additional setup after loading the view.
-        
+        if challengeCell != nil {
+            nameTextFieldSky.text = challengeCell?.name
+            dateTextFieldSky.text = challengeCell?.date
+            distlTextFieldSky.text = challengeCell?.dist
+        }
     }
     
     // MARK: - UILabel
@@ -84,10 +91,10 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         //dist
         
         distlTextFieldSky.placeholder = "Enter distance"
-        distlTextFieldSky.title = "Distsnce"
+        distlTextFieldSky.title = "Distance"
         distlTextFieldSky.errorColor = UIColor.redColor()
         distlTextFieldSky.delegate = self
-        distlTextFieldSky.keyboardType = .PhonePad
+        distlTextFieldSky.keyboardType = .DecimalPad
         
         distlTextFieldSky.tintColor = GlobalType.overcastBlueColor // the color of the blinking cursor
         distlTextFieldSky.textColor = GlobalType.darkGreyColor
@@ -152,20 +159,20 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         dateTextFieldSky.text = textDate
         
         //cheack value
-        print(NSDate(timeIntervalSinceNow:600)," ", textDate," ",fromStringToDate(textDate)," ",fromStringToDate(textDate)?.compare(NSDate(timeIntervalSinceNow:600)))
-            if( dateTextFieldSky.text!.characters.count < 10 ) {
-                dateTextFieldSky.errorMessage = "Set date"
-            } else if fromStringToDate(textDate)?.compare(NSDate(timeIntervalSinceNow:600)) == .OrderedAscending  {
-                dateTextFieldSky.errorMessage = "Date so early"
-            }
-            else {
-                // The error message will only disappear when we reset it to nil or empty string
-                dateTextFieldSky.errorMessage = ""
-            }
+
+        if( dateTextFieldSky.text!.characters.count < 10 ) {
+            dateTextFieldSky.errorMessage = "Set date"
+        } else if fromStringToDate(textDate)?.compare(NSDate(timeIntervalSinceNow:600)) == .OrderedAscending  {
+            dateTextFieldSky.errorMessage = "Date so early"
+        }
+        else {
+            // The error message will only disappear when we reset it to nil or empty string
+            dateTextFieldSky.errorMessage = ""
+        }
         
     }
     func fromStringToDate(stringDate:String?)->NSDate?{
-
+        
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
@@ -187,9 +194,16 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         self.viewButtonSave.setTitleColor(GlobalType.overcastBlueColor, forState: UIControlState.Normal)
         self.viewButtonSave.setTitleColor(GlobalType.lightGreyColor, forState: UIControlState.Highlighted)
         
+    }
+    //MARK: - button Go
+    func redrawButtonCancel(){
+        self.viewButtonCancel.layer.cornerRadius = 0.5 * self.viewButtonCancel.bounds.size.width
+        self.viewButtonCancel.clipsToBounds = true
+        self.viewButtonCancel.tintColor = GlobalType.YellowColor
+        self.viewButtonCancel.setTitleColor(GlobalType.YellowColor, forState: UIControlState.Normal)
+        self.viewButtonCancel.setTitleColor(GlobalType.lightGreyColor, forState: UIControlState.Highlighted)
         
     }
-    
     
     @IBAction func tapViewGlobal(sender: AnyObject) {
         if self.nameTextFieldSky.isFirstResponder() {
@@ -208,6 +222,40 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
     
     
     // MARK: - Validating the fields when "SAVE" is pressed
+    @IBAction func actionCancel(sender: AnyObject) {
+        print("cancel")
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func savetoBD(){
+        
+        var uid = "";
+        if let user = FIRAuth.auth()?.currentUser {
+            uid = user.uid;
+        } else {
+            print("You have a problem")
+            return
+        }
+        
+        if challengeCell == nil {
+            challengeCell = ChallengeObj()
+            challengeCell!.id = self.dateTextFieldSky.text! + self.nameTextFieldSky.text! + uid
+            challengeCell!.ownId = uid
+            challengeCell!.name = self.nameTextFieldSky.text!
+            challengeCell!.date = self.dateTextFieldSky.text!
+            challengeCell!.dist = self.distlTextFieldSky.text!
+            
+            DBInspector.sharedInstance.saveChallenge(challengeCell!)
+        } else {
+            challengeCell!.name = self.nameTextFieldSky.text!
+            challengeCell!.date = self.dateTextFieldSky.text!
+            challengeCell!.dist = self.distlTextFieldSky.text!
+            DBInspector.sharedInstance.updateChallenge(challengeCell!)
+        }
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     
     var isSaveButtonPressed = false
     var showingTitleInProgress = false
@@ -242,8 +290,9 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         
         guard self.nameTextFieldSky.text!.characters.count >= 3  else { return }
         guard self.dateTextFieldSky.text!.characters.count >= 10  else { return }
-        guard fromStringToDate(dateTextFieldSky.text)?.compare(NSDate(timeIntervalSinceNow:600)) == .OrderedAscending  else { return }
-        guard (self.distlTextFieldSky.text! as NSString).doubleValue  < 0.3  else { return }
+        guard fromStringToDate(dateTextFieldSky.text)?.compare(NSDate(timeIntervalSinceNow:600)) != .OrderedAscending  else { return }
+        guard (self.distlTextFieldSky.text! as NSString).doubleValue  >= 0.3  else { return }
+        savetoBD()
     }
     
     func hideTitleVisibleFromFields() {

@@ -330,7 +330,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, AKPickerViewD
     func goChallegeList(){
 
         let vc = self.storyboard!.instantiateViewControllerWithIdentifier("ChallengeListViewController") as! ChallengeListViewController
-        self.navigationController!.pushViewController(vc, animated: true)
+        self.presentViewController(vc, animated:true, completion:nil)
     }
     
     //    @IBOutlet weak var emailField: UITextField!
