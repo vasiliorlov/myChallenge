@@ -11,22 +11,25 @@ import UIKit
 class ChallengeListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ButtonCellDelegate,DBInspetorDelegateListChallenge  {
     
     @IBOutlet var tableView: UITableView!//challenge list
-    var challenges = DBInspector.sharedInstance.getChallenge(filter.all) //challenge from coredata
-    var row: Int = DBInspector.sharedInstance.getChallenge(filter.all).count + 1//DBInspector.sharedInstance.getCountEntity(entity: "Run") + 1 //for button +
-   
+    var challenges:[ChallengeObj]{
+        get{
+            return DBInspector.sharedInstance.getChallenge(filterCha.all)//challenge from coredata
+        }
+    }
+    var row: Int  {
+        get {
+            return DBInspector.sharedInstance.getChallenge(filterCha.all).count + 1//DBInspector.sharedInstance.getCountEntity(entity: "Run") + 1 //for button +
+        }
+    }
+    
     //refresh from firebase
     var refreshControl:UIRefreshControl!
-    
-    
-    
-    
-    
-    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshControllerCreate()//refreshControll
+        DBInspector.sharedInstance.dbInspectorListCh = self //delegate refresh
         // Do any additional setup after loading the view.
     }
     
@@ -42,14 +45,12 @@ class ChallengeListViewController: UIViewController, UITableViewDelegate, UITabl
     
     //scan list change and reload table
     func reloadList(){
-
-            dispatch_async(dispatch_get_main_queue(), {
-                self.tableView.reloadData()
-            })
-
+        self.tableView.reloadData()
     }
     func reloadChallenge() {
+        
         reloadList()
+        
     }
     //refresh firebase
     func refreshControllerCreate(){
@@ -62,11 +63,11 @@ class ChallengeListViewController: UIViewController, UITableViewDelegate, UITabl
     
     //update from firebase
     func reloadManual(sender:AnyObject) {
-        sleep(3)
-        
+        DBInspector.sharedInstance.upLoadToFireBase(DBInspector.sharedInstance.getChallenge(filterCha.my))
+        DBInspector.sharedInstance.downloadNoneMyChallenge()
         self.refreshControl.endRefreshing()
     }
-
+    
     //UITableViewDataSource
     // MARK: - UITableViewDataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
@@ -76,13 +77,9 @@ class ChallengeListViewController: UIViewController, UITableViewDelegate, UITabl
         
         if indexPath.row  < row - 1 {
             let cell = self.tableView.dequeueReusableCellWithIdentifier("ChallengeCell", forIndexPath: indexPath) as! ChallengeCell
-                cell.challengeCell = challenges[indexPath.row]
-                cell.label.text = challenges[indexPath.row].id
-            
-            if cell.buttonDelegate == nil {
-                cell.buttonDelegate = self
-            }
-            
+            cell.challengeCell = challenges[indexPath.row]
+            cell.label.text = challenges[indexPath.row].id
+            cell.buttonDelegate = self
             return cell
         }
         else  {
@@ -96,7 +93,6 @@ class ChallengeListViewController: UIViewController, UITableViewDelegate, UITabl
     // MARK: - UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         if indexPath.row == row - 1 {
-            row += 1
             tableView.reloadData()
             let vc = self.storyboard!.instantiateViewControllerWithIdentifier("ChallengeViewController") as! ChallengeViewController
             vc.challengeCell = nil

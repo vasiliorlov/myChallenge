@@ -57,6 +57,20 @@
                                     <action selector="saveTouchUpInside:" destination="QKx-bY-23Z" eventType="touchUpInside" id="PER-9N-mON"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QUj-tn-aXN">
+                                <rect key="frame" x="102" y="342" width="65" height="65"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="8Wb-sU-GUU"/>
+                                    <constraint firstAttribute="width" constant="65" id="ZUP-y5-mOE"/>
+                                </constraints>
+                                <state key="normal" title="DELETE">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="actionDelete:" destination="QKx-bY-23Z" eventType="touchUpInside" id="z4L-Ao-yrX"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aoc-Dn-CC1">
                                 <rect key="frame" x="248" y="342" width="65" height="65"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -80,10 +94,12 @@
                             <constraint firstItem="Ia4-CI-qaj" firstAttribute="centerX" secondItem="EDH-0X-Bag" secondAttribute="centerX" id="Hw8-nH-M6d"/>
                             <constraint firstItem="Aoc-Dn-CC1" firstAttribute="leading" secondItem="Ia4-CI-qaj" secondAttribute="trailing" constant="8" id="KRT-ys-Q7H"/>
                             <constraint firstItem="UfM-1r-8aL" firstAttribute="centerX" secondItem="EDH-0X-Bag" secondAttribute="centerX" id="QwC-Gp-BPg"/>
+                            <constraint firstItem="Ia4-CI-qaj" firstAttribute="leading" secondItem="QUj-tn-aXN" secondAttribute="trailing" constant="8" id="Rr4-WC-LIG"/>
                             <constraint firstItem="9rQ-sD-efN" firstAttribute="top" secondItem="UfM-1r-8aL" secondAttribute="bottom" constant="23" id="SEt-Wl-HcB"/>
                             <constraint firstItem="Aoc-Dn-CC1" firstAttribute="top" secondItem="xUn-P0-mdg" secondAttribute="bottom" constant="58" id="Vp4-Ww-pf6"/>
                             <constraint firstItem="9rQ-sD-efN" firstAttribute="centerX" secondItem="EDH-0X-Bag" secondAttribute="centerX" id="eg3-zQ-VTd"/>
                             <constraint firstItem="UfM-1r-8aL" firstAttribute="top" secondItem="fGP-oL-MLz" secondAttribute="bottom" constant="23" id="iP0-gD-zc7"/>
+                            <constraint firstItem="QUj-tn-aXN" firstAttribute="top" secondItem="xUn-P0-mdg" secondAttribute="bottom" constant="58" id="jY0-to-8Te"/>
                             <constraint firstItem="xUn-P0-mdg" firstAttribute="centerX" secondItem="EDH-0X-Bag" secondAttribute="centerX" id="sGE-cq-lyf"/>
                         </constraints>
                         <connections>
@@ -93,6 +109,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="viewButtonCancel" destination="Aoc-Dn-CC1" id="iHF-El-H2c"/>
+                        <outlet property="viewButtonDelete" destination="QUj-tn-aXN" id="kA8-O3-wIO"/>
                         <outlet property="viewButtonSave" destination="Ia4-CI-qaj" id="rP9-dR-lrl"/>
                         <outlet property="viewDateChallege" destination="9rQ-sD-efN" id="gw0-PW-60i"/>
                         <outlet property="viewDistanceChallenge" destination="xUn-P0-mdg" id="B9l-aP-LtG"/>

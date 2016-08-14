@@ -23,6 +23,7 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var viewButtonSave: UIButton!
     @IBOutlet var viewButtonCancel: UIButton!
+    @IBOutlet var viewButtonDelete: UIButton!
     //logival
     var challengeCell:ChallengeObj?
 
@@ -36,6 +37,7 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         //        createListTypeAction()//add pickerView
         redrawButtonSave()
         redrawButtonCancel()
+        redrawButtonDelete()
         //
         // Do any additional setup after loading the view.
         if challengeCell != nil {
@@ -195,13 +197,22 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         self.viewButtonSave.setTitleColor(GlobalType.lightGreyColor, forState: UIControlState.Highlighted)
         
     }
-    //MARK: - button Go
+    //MARK: - button cancel
     func redrawButtonCancel(){
         self.viewButtonCancel.layer.cornerRadius = 0.5 * self.viewButtonCancel.bounds.size.width
         self.viewButtonCancel.clipsToBounds = true
         self.viewButtonCancel.tintColor = GlobalType.YellowColor
         self.viewButtonCancel.setTitleColor(GlobalType.YellowColor, forState: UIControlState.Normal)
         self.viewButtonCancel.setTitleColor(GlobalType.lightGreyColor, forState: UIControlState.Highlighted)
+        
+    }
+    //MARK: - button delete
+    func redrawButtonDelete(){
+        self.viewButtonDelete.layer.cornerRadius = 0.5 * self.viewButtonDelete.bounds.size.width
+        self.viewButtonDelete.clipsToBounds = true
+        self.viewButtonDelete.tintColor = GlobalType.RedColor
+        self.viewButtonDelete.setTitleColor(GlobalType.RedColor, forState: UIControlState.Normal)
+        self.viewButtonDelete.setTitleColor(GlobalType.lightGreyColor, forState: UIControlState.Highlighted)
         
     }
     
@@ -217,9 +228,20 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+   // MARK: - Validating the fields when "DELETE" is pressed
     
     
-    
+    @IBAction func actionDelete(sender: AnyObject) {
+       
+        if challengeCell == nil{ //if new challenge
+           self.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            challengeCell!.name = GlobalType.deletingMark
+  
+            DBInspector.sharedInstance.updateChallenge(challengeCell!)
+        }
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     // MARK: - Validating the fields when "SAVE" is pressed
     @IBAction func actionCancel(sender: AnyObject) {
@@ -250,6 +272,7 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
             challengeCell!.name = self.nameTextFieldSky.text!
             challengeCell!.date = self.dateTextFieldSky.text!
             challengeCell!.dist = self.distlTextFieldSky.text!
+            
             DBInspector.sharedInstance.updateChallenge(challengeCell!)
         }
         
