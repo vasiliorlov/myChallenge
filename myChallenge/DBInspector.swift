@@ -12,7 +12,7 @@ import CoreLocation
 import Firebase
 
 @objc protocol DBInspetorDelegateListChallenge {
-    optional func reloadChallenge()
+    optional func reloadChallenge(challenges:[ChallengeObj]?)
 }
 
 struct filterCha{
@@ -28,10 +28,15 @@ class DBInspector: NSObject {
     var dbInspectorListCh:DBInspetorDelegateListChallenge?
     var ref: FIRDatabaseReference!
     
+    var challenges = [ChallengeObj]()
+    
     override init() {
         super.init()
         // [START create_database_reference]
+        FIRDatabase.database().persistenceEnabled = true
         self.ref = FIRDatabase.database().reference()
+        listenUpdateData()
+        
         // [END create_database_reference]
     }
     
@@ -47,25 +52,77 @@ class DBInspector: NSObject {
     }()
     
     
-    func upLoadToFireBase(challenges:[ChallengeObj]){
+    
+    func listenUpdateData(){
+        // Listen for new challenge in the Firebase database
+        self.ref.child("challenges").observeEventType(.ChildAdded, withBlock: { (snapshot) -> Void in
+            let challengeObject = self.returnChallengeFromSnap(snapshot)
+            self.challenges.append(challengeObject)
+            
+            
+            if let delegate = self.dbInspectorListCh  {
+                delegate.reloadChallenge!(self.challenges)
+            }
+        })
+        
+        
+        // Listen for deleted challenge in the Firebase database
+        self.ref.child("challenges").observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
+
+            let challengeObject = self.returnChallengeFromSnap(snapshot)
+            
+            self.challenges = self.challenges.filter{ $0.id != challengeObject.id}
+
+            if let delegate = self.dbInspectorListCh  {
+                delegate.reloadChallenge!(self.challenges)
+            }
+        })
+        
+    }
+    func returnChallengeFromSnap(shot:FIRDataSnapshot)->ChallengeObj{
+        let challengeObject   = ChallengeObj()
+        challengeObject.id    = String(shot.value!["id"])
+        challengeObject.name  = String(shot.value!["name"])
+        challengeObject.ownId = String(shot.value!["ownId"])
+        challengeObject.date  = String(shot.value!["date"])
+        challengeObject.dist  = String(shot.value!["dist"])
+        return challengeObject
+        
+    }
+    
+    
+    func upLoadToFireBase(chall:ChallengeObj){
         
         var challengeUpdates = [String:AnyObject]()
+        let id = chall.id == nil ? ref.child("challenges").childByAutoId().key : chall.id!
         
-        for challengeObject in challenges {
-            let challenge = [  "id":challengeObject.id!,
-                            "ownId": challengeObject.ownId!,
-                             "name": challengeObject.name!,
-                             "date": challengeObject.date!,
-                             "dist": challengeObject.dist!]
-            
-            challengeUpdates["/challenges/\(challengeObject.id!)"] = challenge
-        }
+        let challenge = [      "id": id,
+                               "ownId": chall.ownId!,
+                               "name": chall.name!,
+                               "date": chall.date!,
+                               "dist": chall.dist!]
+        challengeUpdates["/challenges/\(id)"] = challenge
+        
         ref.updateChildValues(challengeUpdates)
     }
     
-    func downloadNoneMyChallenge()->[ChallengeObj?]{
+    func removeFromFireBase(chall:ChallengeObj){
+        
+        ref.child("/challenges/\(chall.id!)").removeValue()
+        
+        if let delegate = self.dbInspectorListCh  {
+            delegate.reloadChallenge!(self.challenges)
+        }
+    }
+    
+    
+    //download
+    func downloadNoneMyChallenge(){
+        
+        
         _ = ref.child("challenges").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-
+            
+            self.challenges.removeAll()
             for challenge in snapshot.children {
                 let challengeObject = ChallengeObj()
                 challengeObject.id = String(challenge.value["id"])
@@ -74,131 +131,121 @@ class DBInspector: NSObject {
                 challengeObject.date = String(challenge.value["date"])
                 challengeObject.dist = String(challenge.value["dist"])
                 
+                self.challenges.append(challengeObject)
                 
-                //download my only i have not them in me local base
-              
-                if self.getCountEntity(entity: "Challenge", withId: challengeObject.id) == 0 {
-                    self.saveChallenge(challengeObject)
-                } else if challengeObject.ownId != self.uid {
-                    self.updateChallenge(challengeObject)
-                }
-               
-           }
+            }
+            if let delegate = self.dbInspectorListCh  {
+                delegate.reloadChallenge!(self.challenges)
+            }
             
         }) { (error) in
             print(error.localizedDescription)
         }
         
-       return [nil]
-    }
-    func deleteInFireBase(){
-        
     }
     
     
-    //MARK: - work with challenge table
     
-    func saveChallenge(challenge:ChallengeObj){
-        print("Save",challenge)
-        let queue = dispatch_queue_create("com.vasili.arlou.myChallenge",DISPATCH_QUEUE_SERIAL)
-        
-        dispatch_async(queue) {
-            
-            let savedChallenge = NSEntityDescription.insertNewObjectForEntityForName("Challenge", inManagedObjectContext: self.managedObjectContext) as! Challenge
-            savedChallenge.id = challenge.id
-            savedChallenge.ownId = challenge.ownId
-            savedChallenge.name = challenge.name
-            savedChallenge.date = challenge.date
-            savedChallenge.dist = challenge.dist
-            
-            
-            if self.managedObjectContext.hasChanges {
-                do {
-                    try self.managedObjectContext.save()
-                } catch let error as NSError{
-                    print("Cound not save the challenge. Error ",error)
-                }
-            }
-        }
-        
-        dispatch_async(queue) {
-            dispatch_async(dispatch_get_main_queue(), {
-                if self.dbInspectorListCh != nil {
-                    self.dbInspectorListCh!.reloadChallenge!()
-                }
-            })
-        }
-        
-    }
+    //    //MARK: - work with challenge table
+    //
+    //    func saveChallenge(challenge:ChallengeObj){
+    //          let queue = dispatch_queue_create("com.vasili.arlou.myChallenge",DISPATCH_QUEUE_SERIAL)
+    //
+    //        dispatch_async(queue) {
+    //
+    //            let savedChallenge = NSEntityDescription.insertNewObjectForEntityForName("Challenge", inManagedObjectContext: self.managedObjectContext) as! Challenge
+    //            savedChallenge.id = challenge.id
+    //            savedChallenge.ownId = challenge.ownId
+    //            savedChallenge.name = challenge.name
+    //            savedChallenge.date = challenge.date
+    //            savedChallenge.dist = challenge.dist
+    //
+    //
+    //            if self.managedObjectContext.hasChanges {
+    //                do {
+    //                    try self.managedObjectContext.save()
+    //                } catch let error as NSError{
+    //                    print("Cound not save the challenge. Error ",error)
+    //                }
+    //            }
+    //        }
+    //
+    //        dispatch_async(queue) {
+    //            dispatch_async(dispatch_get_main_queue(), {
     
-    
-    func updateChallenge(challenge:ChallengeObj){
-        
-        print("Update",challenge)
-        let queue = dispatch_queue_create("com.vasili.arlou.myChallenge",DISPATCH_QUEUE_SERIAL)
-        dispatch_async(queue) {
-            let predicate = NSPredicate(format: "id == %@", challenge.id!)
-            
-            let fetchRequest = NSFetchRequest(entityName: "Challenge")
-            fetchRequest.predicate = predicate
-            
-            do {
-                let fetchedEntities = try self.managedObjectContext.executeFetchRequest(fetchRequest) as! [Challenge]
-                fetchedEntities.first?.name = challenge.name
-                fetchedEntities.first?.date = challenge.date
-                fetchedEntities.first?.dist = challenge.dist
-                
-            } catch {
-                // что-то делаем в зависимости от ошибки
-            }
-            
-            do {
-                try self.managedObjectContext.save()
-            } catch let error as NSError{
-                print("Cound not save the challenge. Error ",error)
-            }
-        }
-        dispatch_async(queue) {
-            dispatch_async(dispatch_get_main_queue(), {
-                if self.dbInspectorListCh != nil {
-                    self.dbInspectorListCh!.reloadChallenge!()
-                }
-            })
-        }
-
-    }
-    
-    //get challenge
-    func getChallenge(filter:Int)->[ChallengeObj]{
-        
-        var ChallengeObjs = [ChallengeObj]()
-        
-        let fetchRequest = NSFetchRequest(entityName: "Challenge")
-        
-        if (filter == filterCha.my && uid != nil){
-            let predicate = NSPredicate(format: "ownId == %@", uid!)
-            fetchRequest.predicate = predicate
-        }
-        do {
-            let fetchedEntities = try self.managedObjectContext.executeFetchRequest(fetchRequest) as! [Challenge]
-            for entity in fetchedEntities {
-                let obj = ChallengeObj()
-                obj.name = entity.name
-                obj.date = entity.date
-                obj.dist = entity.dist
-                obj.id = entity.id
-                obj.ownId = entity.ownId
-                ChallengeObjs.append(obj)
-            }
-            
-        } catch {
-            print("Error fetchRequest")
-        }
-        return ChallengeObjs
-        
-    }
-    
-    
+    //            })
+    //        }
+    //
+    //    }
+    //
+    //
+    //    func updateChallenge(challenge:ChallengeObj){
+    //
+    //        print("Update",challenge)
+    //        let queue = dispatch_queue_create("com.vasili.arlou.myChallenge",DISPATCH_QUEUE_SERIAL)
+    //        dispatch_async(queue) {
+    //            let predicate = NSPredicate(format: "id == %@", challenge.id!)
+    //
+    //            let fetchRequest = NSFetchRequest(entityName: "Challenge")
+    //            fetchRequest.predicate = predicate
+    //
+    //            do {
+    //                let fetchedEntities = try self.managedObjectContext.executeFetchRequest(fetchRequest) as! [Challenge]
+    //                fetchedEntities.first?.name = challenge.name
+    //                fetchedEntities.first?.date = challenge.date
+    //                fetchedEntities.first?.dist = challenge.dist
+    //
+    //            } catch {
+    //                // что-то делаем в зависимости от ошибки
+    //            }
+    //
+    //            do {
+    //                try self.managedObjectContext.save()
+    //            } catch let error as NSError{
+    //                print("Cound not save the challenge. Error ",error)
+    //            }
+    //        }
+    //        dispatch_async(queue) {
+    //            dispatch_async(dispatch_get_main_queue(), {
+    //                if self.dbInspectorListCh != nil {
+    //                    self.dbInspectorListCh!.reloadChallenge!()
+    //                }
+    //            })
+    //        }
+    //
+    //    }
+    //
+    //    //get challenge
+    //    func getChallenge(filter:Int)->[ChallengeObj]{
+    //
+    //        var ChallengeObjs = [ChallengeObj]()
+    //
+    //        let fetchRequest = NSFetchRequest(entityName: "Challenge")
+    //
+    //        if (filter == filterCha.my && uid != nil){
+    //            let predicate = NSPredicate(format: "ownId == %@", uid!)
+    //            fetchRequest.predicate = predicate
+    //        }
+    //        do {
+    //            let fetchedEntities = try self.managedObjectContext.executeFetchRequest(fetchRequest) as! [Challenge]
+    //            for entity in fetchedEntities {
+    //                let obj = ChallengeObj()
+    //                obj.name = entity.name
+    //                obj.date = entity.date
+    //                obj.dist = entity.dist
+    //                obj.id = entity.id
+    //                obj.ownId = entity.ownId
+    //                ChallengeObjs.append(obj)
+    //            }
+    //
+    //        } catch {
+    //            print("Error fetchRequest")
+    //        }
+    //        return ChallengeObjs
+    //
+    //    }
+    //
+    //
     // MARK: - user function core data
     func getCountEntity(entity entity:String, withId:String?)-> Int{
         var count = 0

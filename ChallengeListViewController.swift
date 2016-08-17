@@ -11,16 +11,9 @@ import UIKit
 class ChallengeListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ButtonCellDelegate,DBInspetorDelegateListChallenge  {
     
     @IBOutlet var tableView: UITableView!//challenge list
-    var challenges:[ChallengeObj]{
-        get{
-            return DBInspector.sharedInstance.getChallenge(filterCha.all)//challenge from coredata
-        }
-    }
-    var row: Int  {
-        get {
-            return DBInspector.sharedInstance.getChallenge(filterCha.all).count + 1//DBInspector.sharedInstance.getCountEntity(entity: "Run") + 1 //for button +
-        }
-    }
+    
+    var challenges:[ChallengeObj]?
+    var row: Int = 1
     
     //refresh from firebase
     var refreshControl:UIRefreshControl!
@@ -28,8 +21,14 @@ class ChallengeListViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        refreshControllerCreate()//refreshControll
         DBInspector.sharedInstance.dbInspectorListCh = self //delegate refresh
+        refreshControllerCreate()//refreshControll
+        //update view
+        DBInspector.sharedInstance.downloadNoneMyChallenge()
+        
+        
+
+
         // Do any additional setup after loading the view.
     }
     
@@ -40,18 +39,25 @@ class ChallengeListViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        reloadList()
+        
     }
     
     //scan list change and reload table
     func reloadList(){
-        self.tableView.reloadData()
+        self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
     }
-    func reloadChallenge() {
-        
+    
+    func reloadChallenge(challenges: [ChallengeObj]?) {
+
+        if challenges != nil {
+            self.challenges = challenges
+            self.row        = challenges!.count + 1
+        }
         reloadList()
-        
+        self.refreshControl.endRefreshing()
     }
+    
+    
     //refresh firebase
     func refreshControllerCreate(){
         refreshControl = UIRefreshControl()
@@ -63,9 +69,7 @@ class ChallengeListViewController: UIViewController, UITableViewDelegate, UITabl
     
     //update from firebase
     func reloadManual(sender:AnyObject) {
-        DBInspector.sharedInstance.upLoadToFireBase(DBInspector.sharedInstance.getChallenge(filterCha.my))
-        DBInspector.sharedInstance.downloadNoneMyChallenge()
-        self.refreshControl.endRefreshing()
+             DBInspector.sharedInstance.downloadNoneMyChallenge()
     }
     
     //UITableViewDataSource
@@ -77,8 +81,8 @@ class ChallengeListViewController: UIViewController, UITableViewDelegate, UITabl
         
         if indexPath.row  < row - 1 {
             let cell = self.tableView.dequeueReusableCellWithIdentifier("ChallengeCell", forIndexPath: indexPath) as! ChallengeCell
-            cell.challengeCell = challenges[indexPath.row]
-            cell.label.text = challenges[indexPath.row].id
+            cell.challengeCell = challenges![indexPath.row]
+            cell.label.text = challenges![indexPath.row].id
             cell.buttonDelegate = self
             return cell
         }
@@ -93,11 +97,14 @@ class ChallengeListViewController: UIViewController, UITableViewDelegate, UITabl
     // MARK: - UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         if indexPath.row == row - 1 {
-            tableView.reloadData()
             let vc = self.storyboard!.instantiateViewControllerWithIdentifier("ChallengeViewController") as! ChallengeViewController
             vc.challengeCell = nil
             self.presentViewController(vc, animated:true, completion:nil)
-            
+        } else {
+            let vc = self.storyboard!.instantiateViewControllerWithIdentifier("ChallengeDetailViewController") as! ChallengeDetailViewController
+                vc.challengeCell = challenges![indexPath.row]
+            self.presentViewController(vc, animated:true, completion:nil)
+
         }
     }
     //go setting action

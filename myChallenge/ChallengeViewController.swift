@@ -26,7 +26,7 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var viewButtonDelete: UIButton!
     //logival
     var challengeCell:ChallengeObj?
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,7 +161,7 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         dateTextFieldSky.text = textDate
         
         //cheack value
-
+        
         if( dateTextFieldSky.text!.characters.count < 10 ) {
             dateTextFieldSky.errorMessage = "Set date"
         } else if fromStringToDate(textDate)?.compare(NSDate(timeIntervalSinceNow:600)) == .OrderedAscending  {
@@ -228,17 +228,13 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-   // MARK: - Validating the fields when "DELETE" is pressed
+    // MARK: - Validating the fields when "DELETE" is pressed
     
     
     @IBAction func actionDelete(sender: AnyObject) {
-       
-        if challengeCell == nil{ //if new challenge
-           self.dismissViewControllerAnimated(true, completion: nil)
-        } else {
-            challengeCell!.name = GlobalType.deletingMark
-  
-            DBInspector.sharedInstance.updateChallenge(challengeCell!)
+        
+        if challengeCell !== nil{ //if not new challenge
+            DBInspector.sharedInstance.removeFromFireBase(challengeCell!)
         }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -261,20 +257,13 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         
         if challengeCell == nil {
             challengeCell = ChallengeObj()
-            challengeCell!.id = self.dateTextFieldSky.text! + self.nameTextFieldSky.text! + uid
             challengeCell!.ownId = uid
-            challengeCell!.name = self.nameTextFieldSky.text!
-            challengeCell!.date = self.dateTextFieldSky.text!
-            challengeCell!.dist = self.distlTextFieldSky.text!
-            
-            DBInspector.sharedInstance.saveChallenge(challengeCell!)
-        } else {
-            challengeCell!.name = self.nameTextFieldSky.text!
-            challengeCell!.date = self.dateTextFieldSky.text!
-            challengeCell!.dist = self.distlTextFieldSky.text!
-            
-            DBInspector.sharedInstance.updateChallenge(challengeCell!)
         }
+        challengeCell!.name = self.nameTextFieldSky.text!
+        challengeCell!.date = self.dateTextFieldSky.text!
+        challengeCell!.dist = self.distlTextFieldSky.text!
+        
+        DBInspector.sharedInstance.upLoadToFireBase(challengeCell!)
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }
