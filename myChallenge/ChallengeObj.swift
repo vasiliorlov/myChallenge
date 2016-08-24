@@ -12,7 +12,7 @@ class ChallengeObj: NSObject {
      var id: String?
      var ownId: String?
      var name: String?
-     var date: String?
+     var date: NSDate?
      var dist: String?
 
 }

@@ -42,7 +42,7 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         if challengeCell != nil {
             nameTextFieldSky.text = challengeCell?.name
-            dateTextFieldSky.text = challengeCell?.date
+            dateTextFieldSky.text = DBInspector.sharedInstance.convertTimeDateString(challengeCell?.date).utc
             distlTextFieldSky.text = challengeCell?.dist
         }
     }
@@ -260,7 +260,7 @@ class ChallengeViewController: UIViewController, UITextFieldDelegate {
             challengeCell!.ownId = uid
         }
         challengeCell!.name = self.nameTextFieldSky.text!
-        challengeCell!.date = self.dateTextFieldSky.text!
+        challengeCell!.date = DBInspector.sharedInstance.convertTimeStringDate(self.dateTextFieldSky.text!)
         challengeCell!.dist = self.distlTextFieldSky.text!
         
         DBInspector.sharedInstance.upLoadToFireBase(challengeCell!)

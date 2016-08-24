@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 
 
+
 struct GlobalType{
     //string
     static let refreshFireBase = "... base is updating from FireBase"
@@ -37,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         // Use Firebase library to configure APIs
+
        
         return true
     }

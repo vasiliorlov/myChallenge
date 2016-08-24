@@ -113,6 +113,11 @@ class ChallengeListViewController: UIViewController, UITableViewDelegate, UITabl
         vc.challengeCell = cell.challengeCell
         self.presentViewController(vc, animated:true, completion:nil)
     }
+    //go to profile controller
     
+    @IBAction func openProfile(sender: AnyObject) {
+        let vc = self.storyboard!.instantiateViewControllerWithIdentifier("AccountViewController") as! AccountViewController
+          self.presentViewController(vc, animated:true, completion:nil)
+    }
     
 }

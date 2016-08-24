@@ -19,20 +19,49 @@ class ChallengeDetailViewController: UIViewController {
     @IBOutlet var labelDate: UILabel!
     @IBOutlet var labelCount: UILabel!
     @IBOutlet var labelPlace: UILabel!
+    //uibutton
     
+    
+    @IBOutlet var buttonBack: UIButton!
+    @IBOutlet var buttonRunPause: UIButton!
+    @IBOutlet var buttonStop: UIButton!
+    //table
     @IBOutlet var tableViewUsers: UITableView!
+    
+    //timer
+     lazy var timer = NSTimer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        //uiButton
+        redrawButtonRunPause()
+        redrawButtonBack()
+        redrawButtonStop()
+        
         //draw label 
         if let challenge = challengeCell {
             self.labelName.text = challenge.name
             self.labelDist.text = challenge.dist! + " km"
-            self.labelDate.text = challenge.date
+            self.labelDate.text = DBInspector.sharedInstance.convertTimeDateString(challenge.date).utc
         }
 
         // Do any additional setup after loading the view.
     }
-
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer.invalidate()
+    }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(1,
+                                                       target: self,
+                                                       selector: #selector(NewRunViewController.eachSecond(_:)),
+                                                       userInfo: nil,
+                                                       repeats: true)
+      
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -43,6 +72,12 @@ class ChallengeDetailViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
 
     }
+    //MARK: timer
+    func eachSecond(timer: NSTimer) {
+       
+    }
+    
+    
     /*
     // MARK: - Navigation
 
@@ -86,4 +121,33 @@ class ChallengeDetailViewController: UIViewController {
 //        }
     }
 
+    
+    
+    //MARK: - button Run Pause
+    func redrawButtonRunPause(){
+        self.buttonRunPause.layer.cornerRadius = 0.5 * self.buttonRunPause.bounds.size.width
+        self.buttonRunPause.clipsToBounds = true
+        self.buttonRunPause.tintColor = GlobalType.overcastBlueColor
+        self.buttonRunPause.setTitleColor(GlobalType.overcastBlueColor, forState: UIControlState.Normal)
+        self.buttonRunPause.setTitleColor(GlobalType.lightGreyColor, forState: UIControlState.Highlighted)
+        
+    }
+    //MARK: - button back
+    func redrawButtonBack(){
+        self.buttonBack.layer.cornerRadius = 0.5 * self.buttonBack.bounds.size.width
+        self.buttonBack.clipsToBounds = true
+        self.buttonBack.tintColor = GlobalType.YellowColor
+        self.buttonBack.setTitleColor(GlobalType.YellowColor, forState: UIControlState.Normal)
+        self.buttonBack.setTitleColor(GlobalType.lightGreyColor, forState: UIControlState.Highlighted)
+        
+    }
+    //MARK: - button stop
+    func redrawButtonStop(){
+        self.buttonStop.layer.cornerRadius = 0.5 * self.buttonStop.bounds.size.width
+        self.buttonStop.clipsToBounds = true
+        self.buttonStop.tintColor = GlobalType.RedColor
+        self.buttonStop.setTitleColor(GlobalType.RedColor, forState: UIControlState.Normal)
+        self.buttonStop.setTitleColor(GlobalType.lightGreyColor, forState: UIControlState.Highlighted)
+        
+    }
 }

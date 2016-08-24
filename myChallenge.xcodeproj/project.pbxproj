@@ -13,6 +13,8 @@
 		8811D04A1D49BE590050E700 /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8811D0461D49BE590050E700 /* Location+CoreDataProperties.swift */; };
 		8811D04B1D49BE590050E700 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8811D0471D49BE590050E700 /* Location.swift */; };
 		8812B73B1D642007000FB4E0 /* MiniChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8812B73A1D642007000FB4E0 /* MiniChallengeCell.swift */; };
+		884575CA1D6E2B2F00089F24 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884575C81D6E2B2F00089F24 /* User+CoreDataProperties.swift */; };
+		884575CB1D6E2B2F00089F24 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884575C91D6E2B2F00089F24 /* User.swift */; };
 		8845E5751D4D418A00B1AD9D /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8845E5741D4D418A00B1AD9D /* SignInViewController.swift */; };
 		8845E5771D4D453400B1AD9D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8845E5761D4D453400B1AD9D /* GoogleService-Info.plist */; };
 		8848AAC01D5D0D6D00E631A5 /* setting.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8848AABF1D5D0D6D00E631A5 /* setting.jpg */; };
@@ -27,6 +29,7 @@
 		88582E2E1D5E5A6000F15AD2 /* ChallengeObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88582E2D1D5E5A6000F15AD2 /* ChallengeObj.swift */; };
 		886081081D4BDCDA00D7D057 /* DBInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886081071D4BDCDA00D7D057 /* DBInspector.swift */; };
 		88676B2D1D639F7600E281A8 /* ChallengeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88676B2C1D639F7600E281A8 /* ChallengeDetailViewController.swift */; };
+		88C98DCF1D6D4227004D9FDA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C98DCE1D6D4227004D9FDA /* AccountViewController.swift */; };
 		88F1C48A1D48677D00D17131 /* AddChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1C4891D48677D00D17131 /* AddChallengeCell.swift */; };
 		88F1C48C1D4867E200D17131 /* ChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1C48B1D4867E200D17131 /* ChallengeCell.swift */; };
 		88F88EB51D47241800DA3136 /* ChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F88EB41D47241800DA3136 /* ChallengeListViewController.swift */; };
@@ -40,6 +43,8 @@
 		8811D0461D49BE590050E700 /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8811D0471D49BE590050E700 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		8812B73A1D642007000FB4E0 /* MiniChallengeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniChallengeCell.swift; sourceTree = "<group>"; };
+		884575C81D6E2B2F00089F24 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		884575C91D6E2B2F00089F24 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8845E5741D4D418A00B1AD9D /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		8845E5761D4D453400B1AD9D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8848AABF1D5D0D6D00E631A5 /* setting.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = setting.jpg; path = "../../../Yandex.Disk.localized/Документы/pict/medicine diary/setting.jpg"; sourceTree = "<group>"; };
@@ -56,6 +61,7 @@
 		88582E2D1D5E5A6000F15AD2 /* ChallengeObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeObj.swift; sourceTree = "<group>"; };
 		886081071D4BDCDA00D7D057 /* DBInspector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBInspector.swift; sourceTree = "<group>"; };
 		88676B2C1D639F7600E281A8 /* ChallengeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeDetailViewController.swift; sourceTree = "<group>"; };
+		88C98DCE1D6D4227004D9FDA /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		88F1C4891D48677D00D17131 /* AddChallengeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddChallengeCell.swift; sourceTree = "<group>"; };
 		88F1C48B1D4867E200D17131 /* ChallengeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeCell.swift; sourceTree = "<group>"; };
 		88F88EB41D47241800DA3136 /* ChallengeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChallengeListViewController.swift; path = ../ChallengeListViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				884EB4751D46914000EAA407 /* ViewController.swift */,
+				88C98DCE1D6D4227004D9FDA /* AccountViewController.swift */,
 				884C34FB1D5BAE5B0005407F /* ChallengeViewController.swift */,
 				88676B2C1D639F7600E281A8 /* ChallengeDetailViewController.swift */,
 				8845E5741D4D418A00B1AD9D /* SignInViewController.swift */,
@@ -138,6 +145,8 @@
 				884EB4731D46914000EAA407 /* AppDelegate.swift */,
 				886081071D4BDCDA00D7D057 /* DBInspector.swift */,
 				88582E2D1D5E5A6000F15AD2 /* ChallengeObj.swift */,
+				884575C81D6E2B2F00089F24 /* User+CoreDataProperties.swift */,
+				884575C91D6E2B2F00089F24 /* User.swift */,
 				8811D0441D49BE590050E700 /* Run+CoreDataProperties.swift */,
 				8811D0451D49BE590050E700 /* Run.swift */,
 				8811D0461D49BE590050E700 /* Location+CoreDataProperties.swift */,
@@ -316,12 +325,15 @@
 				88FDAD651D54458C00151EB1 /* AKPickerView.swift in Sources */,
 				884EB47C1D46914000EAA407 /* myChallenge.xcdatamodeld in Sources */,
 				88582E2E1D5E5A6000F15AD2 /* ChallengeObj.swift in Sources */,
+				88C98DCF1D6D4227004D9FDA /* AccountViewController.swift in Sources */,
 				8811D04A1D49BE590050E700 /* Location+CoreDataProperties.swift in Sources */,
 				88F88EB51D47241800DA3136 /* ChallengeListViewController.swift in Sources */,
 				884EB48A1D46932B00EAA407 /* NewRunViewController.swift in Sources */,
 				88F1C48C1D4867E200D17131 /* ChallengeCell.swift in Sources */,
 				88F1C48A1D48677D00D17131 /* AddChallengeCell.swift in Sources */,
+				884575CA1D6E2B2F00089F24 /* User+CoreDataProperties.swift in Sources */,
 				8811D0481D49BE590050E700 /* Run+CoreDataProperties.swift in Sources */,
+				884575CB1D6E2B2F00089F24 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

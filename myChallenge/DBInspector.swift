@@ -11,6 +11,7 @@ import CoreData
 import CoreLocation
 import Firebase
 
+
 @objc protocol DBInspetorDelegateListChallenge {
     optional func reloadChallenge(challenges:[ChallengeObj]?)
 }
@@ -21,21 +22,42 @@ struct filterCha{
     static let friends = 2
 }
 
+extension UIImage {
+    func resizeWith(height:CGFloat,width: CGFloat) -> UIImage? {
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: width, height: height)))
+        imageView.contentMode =  UIViewContentMode.ScaleAspectFill
+        imageView.image = self
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.renderInContext(context)
+        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return result
+    }
+}
 
 class DBInspector: NSObject {
     
     static let sharedInstance = DBInspector()
     var dbInspectorListCh:DBInspetorDelegateListChallenge?
-    var ref: FIRDatabaseReference!
     
     var challenges = [ChallengeObj]()
+    //firebase
+    var ref: FIRDatabaseReference!
+    let storage = FIRStorage.storage()
+    
+    
+    
+    
     
     override init() {
         super.init()
         // [START create_database_reference]
         FIRDatabase.database().persistenceEnabled = true
         self.ref = FIRDatabase.database().reference()
+        
         listenUpdateData()
+        
         
         // [END create_database_reference]
     }
@@ -52,6 +74,97 @@ class DBInspector: NSObject {
     }()
     
     
+    //work with photo
+    func convertImage(imageBig:UIImage)->UIImage{
+        var imageSmall = imageBig.resizeWith(150.0, width: 125.0)
+        //var imageSmall = UIImageJPEGRepresentation(imageSmall!,0.5)
+        return imageSmall!
+    }
+    //save image to caredata
+    func saveImageToCoreData(image:UIImage)->Bool{
+        let imageData = UIImageJPEGRepresentation(image,0.5)
+        let predicate = NSPredicate(format: "uid == %@", uid!)
+        
+        let fetchRequest = NSFetchRequest(entityName: "Photo")
+        fetchRequest.predicate = predicate
+        var success = true
+        
+        do {
+            let fetchedEntities = try self.managedObjectContext.executeFetchRequest(fetchRequest) as! [User]
+            fetchedEntities.first?.uid = uid! as String
+            fetchedEntities.first?.photo = imageData
+        } catch {
+            success = false
+        }
+        
+        do {
+            try self.managedObjectContext.save()
+        } catch {
+            success = false
+        }
+        return success
+    }
+    //read imageFromCoreData
+    func imageFromCoreData()->UIImage?{
+        let predicate = NSPredicate(format:"uid == %@",uid!)
+        let fetchRequest = NSFetchRequest(entityName: "Photo")
+        
+        fetchRequest.predicate = predicate
+        let image:UIImage?
+        
+        do{
+            let fetchedEntities = try self.managedObjectContext.executeFetchRequest(fetchRequest) as! [User]
+            image = UIImage(data: (fetchedEntities.first?.photo)!)
+        } catch {
+            image = nil
+        }
+        return image
+    }
+    //save image to firebase
+    func saveImageToFireBase(image:UIImage)->Bool{
+        
+        let imageData = UIImageJPEGRepresentation(image,0.5)
+        let storageRef = self.storage.reference()
+        let photoRef = storageRef.child("photo/" + (self.uid as! String))
+        
+        let upLoadTask = photoRef.putData(imageData!, metadata: nil){
+            //upload
+            metadata, error in
+            if error != nil {
+                
+            } else {
+                let urldownloadUrl = metadata!.downloadURL
+            }
+        }
+        return true
+    }
+    
+    //work with date
+    
+    func convertTimeDateString(date:NSDate?)->(local:String,utc:String){
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        var dateString    = "MMM-DD,YYYY,HH:mm"
+        var dateStringUTC = "MMM-DD,YYYY,HH:mm"
+        if date != nil {
+            dateString = dateFormatter.stringFromDate(date!)
+            dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
+            dateStringUTC = dateFormatter.stringFromDate(date!)
+            
+        }
+        return (dateString,dateStringUTC)
+        
+    }
+    func convertTimeStringDate(string:String)->NSDate?{
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatter.timeZone = NSTimeZone(name: "UTC")
+        let date = dateFormatter.dateFromString(string)
+        return date
+    }
     
     func listenUpdateData(){
         // Listen for new challenge in the Firebase database
@@ -68,11 +181,11 @@ class DBInspector: NSObject {
         
         // Listen for deleted challenge in the Firebase database
         self.ref.child("challenges").observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
-
+            
             let challengeObject = self.returnChallengeFromSnap(snapshot)
             
             self.challenges = self.challenges.filter{ $0.id != challengeObject.id}
-
+            
             if let delegate = self.dbInspectorListCh  {
                 delegate.reloadChallenge!(self.challenges)
             }
@@ -84,7 +197,7 @@ class DBInspector: NSObject {
         challengeObject.id    = String(shot.value!["id"])
         challengeObject.name  = String(shot.value!["name"])
         challengeObject.ownId = String(shot.value!["ownId"])
-        challengeObject.date  = String(shot.value!["date"])
+        challengeObject.date  = DBInspector.sharedInstance.convertTimeStringDate(String(shot.value!["date"]))
         challengeObject.dist  = String(shot.value!["dist"])
         return challengeObject
         
@@ -99,7 +212,7 @@ class DBInspector: NSObject {
         let challenge = [      "id": id,
                                "ownId": chall.ownId!,
                                "name": chall.name!,
-                               "date": chall.date!,
+                               "date": DBInspector.sharedInstance.convertTimeDateString(chall.date).utc,
                                "dist": chall.dist!]
         challengeUpdates["/challenges/\(id)"] = challenge
         
@@ -128,7 +241,7 @@ class DBInspector: NSObject {
                 challengeObject.id = String(challenge.value["id"])
                 challengeObject.name = String(challenge.value["name"])
                 challengeObject.ownId = String(challenge.value["ownId"])
-                challengeObject.date = String(challenge.value["date"])
+                challengeObject.date = DBInspector.sharedInstance.convertTimeStringDate(String(challenge.value["date"]))
                 challengeObject.dist = String(challenge.value["dist"])
                 
                 self.challenges.append(challengeObject)
